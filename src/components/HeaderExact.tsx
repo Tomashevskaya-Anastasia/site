@@ -3,6 +3,7 @@ import styles from './HeaderExact.module.css';
 
 export default function HeaderExact() {
   return (
+    <body className="theme">
     <div className={styles.header} aria-label="Primary">
       {/* .rail убрал */}
       <nav className={styles.buttons}>
@@ -12,5 +13,7 @@ export default function HeaderExact() {
         <a className={styles.btn} href="#roadmap"><span className={styles.label}>ROADMAP</span></a>
       </nav>
     </div>
+    </body>
   );
 }
+
