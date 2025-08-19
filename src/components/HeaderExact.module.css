@@ -1,4 +1,4 @@
-:root {
+:global(:root) {
   --max-w: 951px;
   --btn-h: 64px;
   --gap-x: 45px;    /* между кнопками (desktop) */
@@ -188,3 +188,4 @@
   .btn { transition: none; }
   .btn:hover { transform: none; box-shadow: none; }
 }
+
