@@ -1,3 +1,5 @@
+import "./globals.css";
+
 /* ХЕДЕР — фиксированный, по центру */
 .header {
   position: fixed;
@@ -175,5 +177,6 @@
   .btn { transition: none; }
   .btn:hover { transform: none; box-shadow: none; }
 }
+
 
 
