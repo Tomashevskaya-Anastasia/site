@@ -1,4 +1,4 @@
-:root{
+.theme{
   --brown: #9C6B4B;
   --brown-dark: #6B4631;
   --mint: #B9E5E5;
@@ -251,69 +251,70 @@
 /* ====== АДАПТАЦИЯ ПОД РАЗНЫЕ ШИРИНЫ ====== */
 /* Большие десктопы (≥2000px) — чуть правее и ниже */
 @media (min-width: 2078px){
-  :root{ --panel-left: 62%; --panel-top: 560px; --panel-w: 560px; --panel-scale: 1.4; }
+  .theme{ --panel-left: 62%; --panel-top: 560px; --panel-w: 560px; --panel-scale: 1.4; }
 }
 /* 2077-1899 */
 @media (max-width: 2077px) and (min-width: 1899px){
-  :root{ --panel-left: 61%; --panel-top: 460px; --panel-w: 560px; --panel-scale: 1.3; }
+  .theme{ --panel-left: 61%; --panel-top: 460px; --panel-w: 560px; --panel-scale: 1.3; }
 }
 
 /* 1899–1700 */
 @media (max-width: 1899px) and (min-width: 1700px){
-  :root{ --panel-left: 59%; --panel-top: 350px; --panel-w: 560px; --panel-scale: 1.2; }
+  .theme{ --panel-left: 59%; --panel-top: 350px; --panel-w: 560px; --panel-scale: 1.2; }
 }
 
 /* 1551–1699 */
 @media (max-width: 1699px) and (min-width: 1551px){
-  :root{ --panel-left: 62%; --panel-top: 350px; --panel-w: 540px; --panel-scale: 1; }
+  .theme{ --panel-left: 62%; --panel-top: 350px; --panel-w: 540px; --panel-scale: 1; }
 }
 
 /* 1450–1599 */
 @media (max-width: 1550px) and (min-width: 1450px){
-  :root{ --panel-left: 61%; --panel-top: 330px; --panel-w: 540px; --panel-scale: .95; }
+  .theme{ --panel-left: 61%; --panel-top: 330px; --panel-w: 540px; --panel-scale: .95; }
 }
 
 /* 1366–1599 */
 @media (max-width: 1449px) and (min-width: 1366px){
-  :root{ --panel-left: 61%; --panel-top: 287px; --panel-w: 540px; --panel-scale: 1; --panel-scale: .95;}
+  .theme{ --panel-left: 61%; --panel-top: 287px; --panel-w: 540px; --panel-scale: 1; --panel-scale: .95;}
 }
 
 /* 1200–1365 */
 @media (max-width: 1365px) and (min-width: 1200px){
-  :root{ --panel-left: 60%; --panel-top: 210px; --panel-w: 520px; --panel-scale: .90; }
+  .theme{ --panel-left: 60%; --panel-top: 210px; --panel-w: 520px; --panel-scale: .90; }
 }
 
 /* 1024–1199 (ноуты) */
 @media (max-width: 1199px) and (min-width: 1024px){
-  :root{ --header-height: 58px; --panel-left: 60%; --panel-top: 240px; --panel-w: 480px; --panel-scale: .80; }
+  .theme{ --header-height: 58px; --panel-left: 60%; --panel-top: 240px; --panel-w: 480px; --panel-scale: .80; }
 }
 
 /* 900–1023 */
 @media (max-width: 1023px) and (min-width: 900px){
-  :root{ --header-height: 58px; --panel-left: 60%; --panel-top: 210px; --panel-w: 460px; --panel-scale: .70; }
+  .theme{ --header-height: 58px; --panel-left: 60%; --panel-top: 210px; --panel-w: 460px; --panel-scale: .70; }
 }
 
 /* 815–899 (планшеты горизонтально) */
 @media (max-width: 899px) and (min-width: 815px){
-  :root{ --header-height: 56px; --panel-left: 57%; --panel-top: 190px; --panel-w: 440px; --panel-scale: .70; }
+  .theme{ --header-height: 56px; --panel-left: 57%; --panel-top: 190px; --panel-w: 440px; --panel-scale: .70; }
 }
 
 /* 814–700 (планшеты горизонтально) */
 @media (max-width: 814px) and (min-width: 700px){
-  :root{ --header-height: 56px; --panel-left: 57%; --panel-top: 140px; --panel-w: 440px; --panel-scale: .63; }
+  .theme{ --header-height: 56px; --panel-left: 57%; --panel-top: 140px; --panel-w: 440px; --panel-scale: .63; }
 }
 
 /* 700–620 (планшеты горизонтально) */
 @media (max-width: 699px) and (min-width: 620px){
-  :root{ --header-height: 56px; --panel-left: 57%; --panel-top: 100px; --panel-w: 440px; --panel-scale: .60; }
+  .theme{ --header-height: 56px; --panel-left: 57%; --panel-top: 100px; --panel-w: 440px; --panel-scale: .60; }
 }
 
 /* 620–560 (планшеты горизонтально) */
 @media (max-width: 699px) and (min-width: 560px){
-  :root{ --header-height: 56px; --panel-left: 57%; --panel-top: 90px; --panel-w: 440px; --panel-scale: .55; }
+  .theme{ --header-height: 56px; --panel-left: 57%; --panel-top: 90px; --panel-w: 440px; --panel-scale: .55; }
 }
 
 /* Телефоны — пока скрываем секцию целиком */
 @media (max-width: 559.98px){
   .hero{ display:none; }
 }
+
