@@ -15,6 +15,7 @@ export default function HeroMogga() {
   };
 
   return (
+    <body className="theme">
     <section className={styles.hero} aria-label="Mogga hero">
       {/* Фон как IMG — показываем картинку целиком во всю натуральную высоту */}
       <img
@@ -54,5 +55,7 @@ export default function HeroMogga() {
         </nav>
       </div>
     </section>
+    </body>
   );
 }
+
