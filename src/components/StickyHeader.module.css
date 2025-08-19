@@ -1,4 +1,4 @@
-:root{
+.header-root{
   /* крупнее, чем раньше: увеличил высоту и контейнер */
   --btn-h: clamp(60px, 7.2vw, 84px);
 
@@ -109,3 +109,4 @@
 @media (prefers-reduced-motion: reduce){
   .btn::before, .btn::after{ transition: none; }
 }
+
