@@ -1,5 +1,6 @@
 'use client';
 import styles from './HeaderExact.module.css';
+import "./globals.css";
 
 export default function HeaderExact() {
   return (
@@ -14,3 +15,4 @@ export default function HeaderExact() {
     </div>
   );
 }
+
