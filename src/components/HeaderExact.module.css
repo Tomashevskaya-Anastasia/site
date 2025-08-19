@@ -1,16 +1,3 @@
-:global(:root) {
-  --max-w: 951px;
-  --btn-h: 64px;
-  --gap-x: 45px;    /* между кнопками (desktop) */
-  --pad-side: 62px; /* отступы внутри рамки слева/справа */
-  --pad-y: 20px;    /* вертикальные отступы */
-
-  /* пути к SVG рамкам кнопки */
-  --btn-frame: url('/ui/header/button.svg');
-  --btn-frame-hover: url('/ui/header/button-hover.svg');
-  --rail-frame: url('/ui/header/batton-frame.svg');
-}
-
 /* ХЕДЕР — фиксированный, по центру */
 .header {
   position: fixed;
@@ -188,4 +175,5 @@
   .btn { transition: none; }
   .btn:hover { transform: none; box-shadow: none; }
 }
+
 
