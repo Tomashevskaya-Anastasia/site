@@ -194,7 +194,7 @@
   --pad-y: 20px;    /* вертикальные отступы */
 
   /* пути к SVG рамкам кнопки */
-  --btn-frame: url('/ui/header/button.svg');
+  --btn-frame: url('/ui/header/button1.svg');
   --btn-frame-hover: url('/ui/header/button-hover.svg');
   --rail-frame: url('/ui/header/batton-frame.svg');
 }
