@@ -1,0 +1,97 @@
+/* фиксировано к экрану и по центру */
+.wrap{
+  position: fixed;
+  left: 50%;
+  top: clamp(16px, 2.2vw, 28px);
+  transform: translateX(-50%);
+  width: min(1180px, 96vw);           /* больше, чем 951 */
+  height: clamp(110px, 12vw, 140px);  /* больше, чем 103 */
+  z-index: 1000;
+  pointer-events: none;                /* кликается только .rail */
+}
+
+/* подложка-«стекло» (без бордера!): цвет и blur как в фигме */
+.rail{
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(28px, 4.5vw, 60px);
+  padding-inline: clamp(32px, 6.8vw, 80px);
+  background: rgba(185,229,229,.10);
+  border-radius: 12px;
+  -webkit-backdrop-filter: blur(3.5px);
+  backdrop-filter: blur(3.5px);
+  pointer-events: auto;
+}
+
+/* декоративная рамка-картинка поверх стекла */
+.frame{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;        /* важно: картинка покрывает весь контейнер */
+  opacity: .95;            /* полупрозрачный эффект */
+  pointer-events: none;
+}
+
+/* кнопка — это один блок фиксированной высоты;
+   фон рисуем двумя слоями через псевдо-элементы,
+   чтобы normal/hover были идеально одинакового размера */
+.btn{
+  position: relative;
+  display: inline-block;
+  height: var(--btn-h);
+  /* ширину задаём ниже по ratio */
+  outline-offset: 3px;
+}
+.btn:focus-visible{ outline: 2px dashed #9C6B4B; border-radius: 8px; }
+
+/* размеры по фигме (пиксель-в-пиксель, но масштабируемые) */
+.home      { width: calc(var(--btn-h) * var(--ratio-home)); }
+.about     { width: calc(var(--btn-h) * var(--ratio-about)); }
+.tokenomics{ width: calc(var(--btn-h) * var(--ratio-tokenomics)); }
+.roadmap   { width: calc(var(--btn-h) * var(--ratio-roadmap)); }
+
+/* два слоя фоновых изображений одинакового размера */
+.btn::before,
+.btn::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;     /* ключ: размер полностью контролируем сами */
+  transition: opacity .18s ease-out;
+}
+.btn::before{ opacity: 1; }  /* base */
+.btn::after { opacity: 0; }  /* hover */
+
+/* ховер — только кросс-фейд, никакой смены геометрии */
+.btn:hover::after,
+.btn:focus-visible::after{ opacity: 1; }
+.btn:hover::before,
+.btn:focus-visible::before{ opacity: 0; }
+
+/* подставляем пути картинок (из /ui/header/) */
+.home::before      { background-image: url("/ui/header/button-home.png"); }
+.home::after       { background-image: url("/ui/header/button-home-hover.png"); }
+
+.about::before     { background-image: url("/ui/header/button-about.png"); }
+.about::after      { background-image: url("/ui/header/button-about-hover.png"); }
+
+.tokenomics::before{ background-image: url("/ui/header/button-tokenomics.png"); }
+.tokenomics::after { background-image: url("/ui/header/button-tokenomics-hover.png"); }
+
+.roadmap::before   { background-image: url("/ui/header/button-roadmap.png"); }
+.roadmap::after    { background-image: url("/ui/header/button-roadmap-hover.png"); }
+
+/* планшеты — компактнее, но всё ещё крупно */
+
+
+/* если система просит меньше анимаций */
+@media (prefers-reduced-motion: reduce){
+  .btn::before, .btn::after{ transition: none; }
+}
