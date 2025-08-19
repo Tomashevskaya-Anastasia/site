@@ -10,6 +10,17 @@
   --ratio-about: 141/64;       /* 2.203 */
   --ratio-tokenomics: 231/64;  /* 3.609 */
   --ratio-roadmap: 187/64;     /* 2.922 */
+
+  --max-w: 951px;
+  --btn-h: 64px;
+  --gap-x: 45px;    /* между кнопками (desktop) */
+  --pad-side: 62px; /* отступы внутри рамки слева/справа */
+  --pad-y: 20px;    /* вертикальные отступы */
+
+  /* пути к SVG рамкам кнопки */
+  --btn-frame: url('/ui/header/button.svg');
+  --btn-frame-hover: url('/ui/header/button-hover.svg');
+  --rail-frame: url('/ui/header/batton-frame.svg');
 }
 
 /* фиксированный и центрированный контейнер */
