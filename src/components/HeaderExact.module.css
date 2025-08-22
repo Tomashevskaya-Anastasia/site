@@ -1,0 +1,164 @@
+/* ХЕДЕР — фиксированный, по центру */
+.header {
+  position: fixed;
+  top: 20px;                  /* <- фикс бага единиц измерения */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  pointer-events: auto;
+  display: flex;
+  align-items: center; /* ← центр по высоте внутри хедера */
+
+  width: 100%;
+  max-width: var(--max-w);
+  min-height: calc(var(--btn-h) + var(--pad-y) * 2 + 8px);
+  box-sizing: border-box;
+
+  /* 1) целевой минимум отступа слева/справа */
+  --gutter-min: 50px;
+  /* 2) динамический гуттер:
+        — держит 50px, пока вьюпорт ≥ var(--max-w)  100px
+        — плавно уменьшается до 0, когда места не хватает
+        — становится 0, когда 100vw ≤ var(--max-w) */
+  --maxw: var(--max-w, 980px);
+
+  /* 3) ширина контейнера: либо макс-ширина макета, либо 100vw − двойной гуттер */
+  width: min(var(--maxw), calc(100% - var(--gutter) * 2));
+
+  background: rgba(185, 229, 229, 0.23);
+  -webkit-backdrop-filter: blur(7px);
+          backdrop-filter: blur(7px);
+
+  /* оставим базовую рамку как “фолбэк” для случая,
+     если по каким-то причинам не загрузится SVG обводка */
+  border: none;
+  border-radius: 10px;
+
+  padding: var(--pad-y) var(--pad-side);
+  overflow: hidden; /* важно: псевдоэлементы кнопок не выходят за границы */
+}
+
+.header::before{
+  content:"";
+  position:absolute;
+  inset: 0;
+  background: var(--rail-frame) no-repeat center / 100% 100%;
+  border-radius: inherit;
+  pointer-events:none;
+  z-index:0; /* под контентом */
+}
+
+
+.btnTokenomics {
+  padding-inline: calc(25px + 12px); /* базовый 25px + ~12px = +2ch по краям */
+}
+
+
+/* РЯД КНОПОК */
+.navButtons{
+  display:flex;
+  gap: var(--gap-x);
+  align-items: center;
+  justify-content:center;
+  width:100%;
+  margin:0;
+}
+
+/* КНОПКИ */
+.navBtn{
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+  justify-content: center;
+
+  height: var(--btn-h);
+  padding: 10px 25px;
+
+  /* ключевые строки, чтобы тянуться ровно по тексту */
+  width: auto;
+  min-width: max-content;
+  white-space: nowrap;
+  
+  background: #B9E5E5;
+  border: none;
+  border-radius: 10px;
+  text-decoration: none;
+  box-sizing: border-box;
+
+  transition: box-shadow .2s ease, color .2s ease, transform .12s ease;
+}
+
+/* Псевдоэлемент с рамкой из SVG.
+   Растягивается точно по кнопке, не влияя на её размеры. */
+.navBtn::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image: var(--btn-frame);
+  background-repeat:no-repeat;
+  background-size:100% 100%;
+  background-position:center;
+  border-radius:inherit;
+  pointer-events:none;
+  z-index:1;
+}
+
+/* hover: подменяем только картинку рамки + glow/микросдвиг */
+.navBtn:hover::after{ background-image: var(--btn-frame-hover); }
+.navBtn:hover{ box-shadow:0 0 20px #FF7D41,0 0 12px #FFDB3B; transform:translateY(-1px); }
+
+/* ТЕКСТ НА КНОПКАХ */
+.navLabel{
+  position: relative;
+  z-index: 2;
+  white-space: nowrap;
+  font-family: 'Mountains of Christmas', cursive;
+  font-weight: 700;
+  font-size: clamp(24px, 2.4vw, 34px);
+  line-height: 1.2;
+  text-transform: uppercase;
+  align-items: center;
+  display: flex;
+  height: 100%;
+  color: #9C6B4B;
+  text-shadow: -2px 1px 0 #47423F;
+  user-select: none;
+  pointer-events: none;
+}
+.navBtn:hover .navLabel{ color:#FFDB3B; }
+
+.navBtnRoadmap{
+  /* свои svg для обычного/hover состояний */
+  --btn-frame: url('/ui/header/button1.svg');
+  --btn-frame-hover: url('/ui/header/button-hover.svg');
+}
+
+.navBtnTokenomics{
+  /* если уже был паддинг — оставь; добавляем ещё подмену рамок */
+  --btn-frame: url('/ui/header/button1.svg');
+  --btn-frame-hover: url('/ui/header/button-hover.svg');
+  /* при необходимости свой паддинг: */
+  /* padding-inline: 27px; */
+}
+
+
+/* Масштаб шрифта от ширины кнопки (если поддерживается) */
+@supports (font-size: 1cqi) {
+  .btn { container-type: inline-size; }
+  .label { font-size: clamp(27px, 16cqi, 34px); }
+}
+
+
+
+/* ==== СМАРТФОНЫ: <670 — скрыть секцию ==== */
+@media (max-width: 670px) {
+  .header { display: none; }
+}
+
+/* Меньше анимации по системной настройке */
+@media (prefers-reduced-motion: reduce) {
+  .btn { transition: none; }
+  .btn:hover { transform: none; box-shadow: none; }
+}

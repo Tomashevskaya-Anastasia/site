@@ -1,0 +1,132 @@
+/* ===== СЕКЦИЯ ===== */
+.wrap{
+  position:relative;
+  width:100%;
+  overflow:hidden;
+  line-height:0;         /* убирает «базовую линию» */
+  margin-top:-1px;       /* антишов с hero */
+}
+
+.art{
+  display:block;
+  width:100%;
+  height:auto;
+  user-select:none;
+  pointer-events:none;
+}
+
+.stage{ position:absolute; inset:0; }
+
+/* ===== ТЕКСТ (как в фигме) ===== */
+.tag{
+  position:absolute;
+  font-family:'Mountains of Christmas', cursive;
+  font-style:normal;
+  font-weight:700;
+  text-transform:uppercase;
+
+  /* базовая фигма: 64/89 => line-height: 1.39 */
+  line-height:1.39;
+
+  /* тень 1в1 */
+  text-shadow:
+    -5px 2px 0 var(--mogga-shadow),    /* оригинальная тень */
+    0 2px 3px rgba(0,0,0,0.5),         /* внутренняя вниз */
+    0 -2px 3px rgba(0,0,0,0.35);       /* внутренняя вверх */
+
+  -webkit-text-stroke: 1px rgba(0,0,0,0.35); /* одинаковая обводка */
+
+  /* не переносить НИКОГДА */
+  white-space:nowrap;
+
+  /* не «сжимать» буквы */
+  letter-spacing:0.5px;
+
+  /* масштабируем размер */
+  /* на планшетах — уменьшается, на десктопе — до 64px */
+  font-size:clamp(26px, 4.5vw, 64px);
+
+  user-select:none;
+  pointer-events:none;
+}
+
+/* Крупные экраны ≥1900px — делаем крупнее (до 96px).
+   Хочешь ещё больше — подними правую границу к 112–120px. */
+@media (min-width: 1900px){
+  .tag{ font-size: clamp(64px, 4vw, 96px); }
+}
+
+/* ещё больше (ультраширики ≥2400px) — опционально */
+@media (min-width: 2400px){
+  .tag{ font-size: clamp(80px, 3.8vw, 120px); }
+}
+
+/* цветовые варианты по макету */
+.strong,.dumb,.hold{ color:var(--mogga-yellow); }
+.buy,.rich{ color:var(--mogga-brown); }
+
+/* Десктопные координаты (основные) */
+.strong{ --x:14%; --y:16%; left:var(--x); top:var(--y); }
+.buy   { --x:38%; --y:28%; left:var(--x); top:var(--y); }
+.dumb  { --x:28%; --y:41%; left:var(--x); top:var(--y); }
+.hold  { --x:63%; --y:23%; left:var(--x); top:var(--y); }
+.rich  { --x:49%; --y:11%; left:var(--x); top:var(--y); }
+/* Мобильные координаты (если не задашь, возьмутся десктопные) */
+.strong{ --xm:12%; --ym:16%; }
+.buy   { --xm:28%; --ym:28%; }
+.dumb  { --xm:20%; --ym:42%; }
+.hold  { --xm:60%; --ym:23%; }
+.rich  { --xm:53%; --ym:12%; }
+
+/* подпись ROADMAP */
+.footerTitle{
+  position:absolute;
+  left:50%; bottom:4.5%;
+  transform:translateX(-50%);
+  font-family:'Mountains of Christmas', cursive;
+  font-weight:700;
+  text-transform:uppercase;
+  white-space:nowrap;                 /* тоже без переноса */
+  line-height:1;
+  text-shadow:-3px 2px 0 var(--mogga-shadow);
+  color:#743D2A;
+  font-size:clamp(22px, 3.6vw, 56px);
+}
+
+.wrap{
+  scroll-margin-top: calc(var(--header-gap) var(--header-height) + 8px);
+}
+
+@media (min-width:560px) and (max-width:1024px){
+  .tag{
+    font-size: clamp(18px, 3.9vw, 42px);
+    text-shadow:
+      -3px 1.5px 0 var(--mogga-shadow),
+      0 1.8px 2.2px rgba(0,0,0,.42),
+      0 -1.2px 2.0px rgba(0,0,0,.30);
+    -webkit-text-stroke: .9px rgba(0,0,0,.32);
+  }
+}
+
+@media (max-width: 559.98px){
+
+
+  .tag{
+    /* Координаты: берем мобильные, иначе десктопные, + глобальный оффсет */
+    left: calc(var(--xm, var(--x)) + 0%);
+    top:  calc(var(--ym, var(--y)) + 0%);
+
+    /* Размер для телефонов */
+    font-size: clamp(14px, 5.2vw, 24px);
+
+    /* Тени ближе к тексту (правее/ближе) */
+    text-shadow:
+      -1.5px 1px 0 var(--mogga-shadow),   /* было -2px 1px 0 */
+      0 1px 1px rgba(0,0,0,.45),
+      0 -1px 1px rgba(0,0,0,.30);
+
+    -webkit-text-stroke: .8px rgba(0,0,0,.30);
+  }
+}
+
+
