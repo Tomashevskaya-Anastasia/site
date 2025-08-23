@@ -1,0 +1,330 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+:root {
+  /* базовая высота кнопки под масштабирование (таблет/десктоп) */
+  --btn-h: clamp(52px, 6.3vw, 64px);
+
+  /* фигмовские пропорции (ширина/высота) для разных кнопок */
+  --ratio-home: 133/64;        /* 2.078 */
+  --ratio-about: 141/64;       /* 2.203 */
+  --ratio-tokenomics: 231/64;  /* 3.609 */
+  --ratio-roadmap: 187/64;     /* 2.922 */
+}
+
+/* фиксированный и центрированный контейнер */
+.wrap {
+  position: fixed;
+  left: 50%;
+  top: 23px;                        /* как в фигме */
+  transform: translateX(-50%);
+  width: min(951px, 92vw);          /* ограничиваем, но пускаем «дышать» на планшете */
+  height: clamp(86px, 10vw, 103px); /* общая высота блока */
+  z-index: 1000;
+  pointer-events: none;             /* кликается только внутренний контент */
+}
+
+/* стекло под рамкой — повторяет фигму; работает и без SVG рамки */
+.rail {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(20px, 4.2vw, 45px);
+  padding-inline: clamp(24px, 6.5vw, 62px);
+  background: color-mix(in srgb, #B9E5E5 10%, transparent);
+  border: 4px solid #9C6B4B;
+  border-radius: 10px;
+  -webkit-backdrop-filter: blur(3.5px);
+  backdrop-filter: blur(3.5px);
+  pointer-events: auto;             /* тут уже кликабельно */
+}
+
+/* полупрозрачная художественная рамка (картинка) над стеклом */
+.frame {
+  position: absolute !important;
+  inset: 0;
+  object-fit: cover;
+  mix-blend-mode: normal;
+  opacity: 0.9;                     /* лёгкая прозрачность как в макете */
+  pointer-events: none;
+}
+
+/* общая кнопка: строгая высота, ширина из ratio; внутри два слоя img */
+.btn {
+  position: relative;
+  display: inline-block;
+  height: var(--btn-h);
+  /* ширина под конкретную кнопку заменяется ниже */
+  transition: transform .15s ease-out;
+  will-change: transform;
+}
+.btn:active { transform: translateY(1px) scale(0.995); }
+
+/* размеры для каждой кнопки, чтобы совпасть с фигмой */
+.home      { width: calc(var(--btn-h) * var(--ratio-home)); }
+.about     { width: calc(var(--btn-h) * var(--ratio-about)); }
+.tokenomics{ width: calc(var(--btn-h) * var(--ratio-tokenomics)); }
+.roadmap   { width: calc(var(--btn-h) * var(--ratio-roadmap)); }
+
+/* два слоя картинок равного размера (Next/Image с fill) */
+.imgBase, .imgHover {
+  position: absolute !important;
+  inset: 0;
+  object-fit: contain;
+  image-rendering: auto;
+  transition: opacity .2s ease-out, filter .2s ease-out;
+}
+.imgHover { opacity: 0; }
+
+/* hover/focus — мягкая подсветка с кросс-фейдом, одинаковая высота и ширина */
+.btn:hover .imgHover,
+.btn:focus-visible .imgHover { opacity: 1; }
+.btn:hover .imgBase,
+.btn:focus-visible .imgBase { opacity: 0; }
+
+/* планшеты — чуть плотнее высота и внутренние отступы */
+@media (max-width: 1024px) {
+  :root { --btn-h: clamp(48px, 6.5vw, 58px); }
+  .wrap { top: 16px; }
+}
+
+/* если анимации не желательны */
+@media (prefers-reduced-motion: reduce) {
+  .btn { transition: none; }
+  .imgBase, .imgHover { transition: none; }
+}
+
+/* Блок хиро */
+:root{
+  --brown: #9C6B4B;
+  --brown-dark: #6B4631;
+  --mint: #B9E5E5;
+  --mint-20: rgba(185,229,229,.20);
+  --shadow: #47423F;
+  --glow-yellow: #FFDB3B; /* цвет иконки на ховере */
+  --glow-orange: #FF7D41; /* тёплый внешний ореол */
+
+  /* параметры фикс-хедера */
+  --header-height: 103px; /* desktop */
+  --header-gap: 20px;     /* отступ хедера от самого верха */
+
+  /* Позиция и размер плавающей панели (значения по умолчанию для ≥1400px) */
+  --panel-left: 56%;   /* на сколько от левого края поставить панель */
+  --panel-top: 260px;  /* смещение вниз (от верхней кромки изображения) */
+  --panel-w: 560px;    /* ширина панельки */
+  
+  /*коэффициент масштаба панели (1 = 100%) */
+  --panel-scale: 1;
+  --hero-ca-frame: url('/ui/hero/button1.svg');
+}
+
+/* ====== АДАПТАЦИЯ ПОД РАЗНЫЕ ШИРИНЫ ====== */
+/* Большие десктопы (≥2000px) — чуть правее и ниже */
+@media (min-width: 2078px){
+  :root{ --panel-left: 62%; --panel-top: 560px; --panel-w: 560px; --panel-scale: 1.4; }
+}
+/* 2077-1899 */
+@media (max-width: 2077px) and (min-width: 1899px){
+  :root{ --panel-left: 61%; --panel-top: 460px; --panel-w: 560px; --panel-scale: 1.3; }
+}
+
+/* 1899–1700 */
+@media (max-width: 1899px) and (min-width: 1700px){
+  :root{ --panel-left: 59%; --panel-top: 350px; --panel-w: 560px; --panel-scale: 1.2; }
+}
+
+/* 1551–1699 */
+@media (max-width: 1699px) and (min-width: 1551px){
+  :root{ --panel-left: 62%; --panel-top: 350px; --panel-w: 540px; --panel-scale: 1; }
+}
+
+/* 1450–1599 */
+@media (max-width: 1550px) and (min-width: 1450px){
+  :root{ --panel-left: 61%; --panel-top: 330px; --panel-w: 540px; --panel-scale: .95; }
+}
+
+/* 1366–1599 */
+@media (max-width: 1449px) and (min-width: 1366px){
+  :root{ --panel-left: 61%; --panel-top: 287px; --panel-w: 540px; --panel-scale: 1; --panel-scale: .95;}
+}
+
+/* 1200–1365 */
+@media (max-width: 1365px) and (min-width: 1200px){
+  :root{ --panel-left: 60%; --panel-top: 210px; --panel-w: 520px; --panel-scale: .90; }
+}
+
+/* 1024–1199 (ноуты) */
+@media (max-width: 1199px) and (min-width: 1024px){
+  :root{ --header-height: 58px; --panel-left: 60%; --panel-top: 240px; --panel-w: 480px; --panel-scale: .80; }
+}
+
+/* 900–1023 */
+@media (max-width: 1023px) and (min-width: 900px){
+  :root{ --header-height: 58px; --panel-left: 60%; --panel-top: 210px; --panel-w: 460px; --panel-scale: .70; }
+}
+
+/* 815–899 (планшеты горизонтально) */
+@media (max-width: 899px) and (min-width: 815px){
+  :root{ --header-height: 56px; --panel-left: 57%; --panel-top: 190px; --panel-w: 440px; --panel-scale: .70; }
+}
+
+/* 814–700 (планшеты горизонтально) */
+@media (max-width: 814px) and (min-width: 700px){
+  :root{ --header-height: 56px; --panel-left: 57%; --panel-top: 140px; --panel-w: 440px; --panel-scale: .63; }
+}
+
+/* 700–620 (планшеты горизонтально) */
+@media (max-width: 699px) and (min-width: 620px){
+  :root{ --header-height: 56px; --panel-left: 57%; --panel-top: 100px; --panel-w: 440px; --panel-scale: .60; }
+}
+
+/* 620–560 (планшеты горизонтально) */
+@media (max-width: 699px) and (min-width: 560px){
+  :root{ --header-height: 56px; --panel-left: 57%; --panel-top: 90px; --panel-w: 440px; --panel-scale: .55; }
+}
+
+/* Блок хедера */
+:root {
+  --max-w: 1000px;
+  --btn-h: 64px;
+  --gap-x: 45px;    /* между кнопками (desktop) */
+  --pad-side: 62px; /* отступы внутри рамки слева/справа */
+  --pad-y: 20px;    /* вертикальные отступы */
+
+  /* пути к SVG рамкам кнопки */
+  --btn-frame: url('/ui/header/button2.svg');
+  --btn-frame-hover: url('/ui/header/button-hover.svg');
+  --rail-frame: url('/ui/header/batton-frame.svg');
+}
+
+/* ==== НОУТЫ/УЗКИЕ ДЕСКТОПЫ: 1024..631 ==== */
+@media (max-width: 1024px) and (min-width: 631px) {
+  :root {
+    --btn-h: 58px;
+    --gap-x: clamp(28px, 4.2vw, 36px);
+    --pad-side: clamp(36px, 5vw, 52px);
+  }
+  .buttons { grid-template-columns: repeat(4, 1fr); }
+  .btn {
+    height: var(--btn-h);
+    padding: 8px 20px;
+  }
+  .label { font-size: clamp(20px, 2.1vw, 28px); }
+}
+
+/* ==== ПЛАНШЕТЫ: 630..560 ==== */
+@media (max-width: 630px) and (min-width: 560px) {
+  :root {
+    --btn-h: 50px;
+    --gap-x: clamp(16px, 3.8vw, 24px);
+    --pad-side: clamp(10px, 3.2vw, 18px);
+  }
+  .header {
+    width: min(100%, calc(100vw - 16px));
+    padding: 12px var(--pad-side);
+    max-width: none;
+  }
+  .buttons {
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: var(--gap-x);
+  }
+  .btn {
+    padding: 6px 14px;
+    height: var(--btn-h);
+    transform: none;
+  }
+  .label {
+    font-size: clamp(16px, 3.6vw, 22px);
+    line-height: 1.15;
+  }
+}
+
+/* Блок about */
+:root{
+  --mogga-yellow:#FFDB3B;
+  --mogga-brown:#9C6B4B;
+  --mogga-shadow:#47423F;
+}
+
+/* Блок tokanomics */
+:root{
+  --rm-brown: #471613;   /* цвет текста */
+  --rm-shadow: #C36B2C;  /* цвет тени из фигмы */
+}
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* уважение системной настройки уменьшать анимации */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+
+/* Блок токаномики */
+:root{
+  /* размеры фоновой картинки */
+  --art-w: 1337;
+  --art-h: 768;
+  --art-ratio: calc(var(--art-h) / var(--art-w)); /* h/w */
+
+  /* поля слева/справа для КОНТЕНТА */
+  --tmx-side-desktop: 72px;
+  --tmx-side-narrow: 48px;     /* 1101–1320 */
+  --tmx-side-tablet: 40px;     /* 601–1100 */
+  --tmx-side-phone: 16px;      /* ≤600 */
+
+  /* вертикальные отступы секции */
+  --tmx-padY: 80px;            /* desktop */
+  --tmx-padY-tablet: 64px;     /* tablet */
+  --tmx-padY-phone: 100px;     /* phone */
+
+  /* карточки */
+  --tmx-card-w-desktop: 300px;
+  --tmx-card-w-narrow: 250px;
+  --tmx-card-w-tablet: 280px;
+  --tmx-card-w-phone: 300px;
+
+  --tmx-card-h-desktop: 237px;
+  --tmx-card-h-narrow: 220px;
+  --tmx-card-h-tablet: 220px;
+  --tmx-card-h-phone: 180px;
+
+  /* зазоры */
+  --tmx-gap-desktop: 28px;
+  --tmx-gap-narrow: 22px;
+  --tmx-gap-tablet: 22px;
+  --tmx-gap-phone: 16px;
+
+  --headerH: 80px;
+
+  /* Отступы между заголовком и сеткой + внешние поля сетки */
+  --space-title-grid: 56px; /* desktop дефолт */
+  --space-grid-top: 0px;
+  --space-grid-bottom: 0px;
+
+  /* === SVG-рамка карточки === */
+  --card-radius: 10px;
+  --card-frame-url: url('/ui/tokenomics/Frame.svg'); /* положи Frame.svg сюда */
+  /* Ровная посадка рамки: 0px по краю; если у рамки есть внешнее свечение — увеличь */
+  --card-frame-outset: 3px;
+
+  /* === СВЕЧЕНИЕ (как в макете box-shadow: 0 0 20px 2px #B9E5E5) === */
+  --card-glow-blur: 20px;
+  --card-glow-spread: 2px;
+  --card-glow-color: #B9E5E5;
+}
+
+/* app/components/FooterMogga.module.css */
+:root{
+  --sand:#E4D2B1;
+  --brown:#6B4631;
+  --mint:#B9E5E5;
+}
+
+/* app/components/FooterMoggaMobile.module.css */
+

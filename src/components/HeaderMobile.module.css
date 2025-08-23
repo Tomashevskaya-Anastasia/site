@@ -1,0 +1,166 @@
+/* ===== Мобильный хедер: показываем только на телефонах ===== */
+.headerMobile{
+  position: fixed;
+  z-index: 10010;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 40px;         /* можешь поставить 55px как в фигме */
+  width: 100%;
+  max-width: 360px;
+  display: grid;
+  row-gap: 10px;
+  justify-items: center;
+  pointer-events: auto;
+}
+
+/* ===== Соц-панель (по фигме 260×77) ===== */
+/* ===== Соц-панель (по фигме 260×77) ===== */
+.socials{
+  --social-scale: .90;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: space-evenly;
+  padding: 15px;
+  width: 260px;
+  max-height: 69px;
+
+  background: rgba(185,229,229,.2);
+  /* было: border: 4px solid #B9E5E5; */
+  border: none;               /* <— убрали CSS-рамку */
+  border-radius: 10px;
+  -webkit-backdrop-filter: blur(5px);
+          backdrop-filter: blur(5px);
+
+  isolation: isolate;         /* чтобы псевдо-элемент лежал ниже контента */
+}
+
+/* SVG-рамка поверх контейнера (масштабируется 1:1) */
+.socials::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius: inherit;
+  background: url('/ui/hero/socials-frame.svg') center / 100.6% 102% no-repeat;
+  pointer-events: none;       /* не мешаем кликам по иконкам */
+  z-index: 0;                 /* рамка под контентом */
+}
+
+
+/* Кнопка соцсети 50×47 */
+.socialBtn{
+  position: relative;
+  display: inline-block;
+  width: calc(50px * var(--social-scale));
+  height: calc(47px * var(--social-scale));
+  border-radius: calc(10px * var(--social-scale));
+  background: transparent;           /* коричневый квадрат рисуется PNG */
+  overflow: visible;
+}
+
+/* Носитель PNG */
+.icon{
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* Базовые PNG (без свечения) — те же, что в hero */
+.icDex   { background-image: url('/ui/hero/socials-dex.png'); }
+.icX     { background-image: url('/ui/hero/socials-twitter.png'); }
+.icArena { background-image: url('/ui/hero/socials-arena.png'); }
+
+/* Орёл hover поверх базовой иконки — как в hero */
+.icon::after{
+  content:"";
+  position:absolute;
+  inset: calc(-12px * var(--social-scale));
+  border-radius: calc(16px * var(--social-scale));
+  background-position:center;
+  background-repeat:no-repeat;
+  background-size:100% 100%;
+  opacity:0;
+  transition:opacity .25s ease;
+  pointer-events:none;
+}
+.icDex::after   { background-image:url('/ui/hero/socials-dex-hover.png'); }
+.icX::after     { background-image:url('/ui/hero/socials-x-hover.png'); }
+.icArena::after { background-image:url('/ui/hero/socials-arena-hover.png'); }
+
+.socialBtn:hover  .icon::after,
+.socialBtn:focus-visible .icon::after{ opacity:1; }
+
+/* ===== Ряд нав-кнопок с hover из hero ===== */
+.mNav{
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
+  gap: 8px;
+  max-width: 360px;
+  padding: 2px 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.mNav::-webkit-scrollbar{ display:none; }
+
+
+
+/* Кнопка = та же конструкция, что в hero: ::before с SVG-рамкой + glow */
+.mBtn{
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 56px;                     /* чуть ниже, чем 64px в hero */
+  padding: 8px 20px;
+  background: var(--mint);
+  border: none;
+  border-radius: 10px;
+  text-decoration: none;
+  box-sizing: border-box;
+
+  transition: box-shadow .2s ease, transform .12s ease;
+}
+.mBtn::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  background: url('/ui/hero/button2.svg') center / 100% 100% no-repeat;
+  pointer-events:none;
+}
+.mBtn:hover::before,
+.mBtn:focus-visible::before{
+  background-image: url('/ui/hero/button-hover.svg');
+}
+.mBtn:hover,
+.mBtn:focus-visible{
+  box-shadow: 0 0 20px var(--glow-orange), 0 0 12px var(--glow-yellow);
+  transform: translateY(-1px);
+}
+
+.mBtnLabel{
+  font-family:'Mountains of Christmas',cursive;
+  font-weight:700;
+  text-transform:uppercase;
+  font-size: 24px;
+  line-height: 1.2;
+  color: var(--brown);
+  text-shadow: -2px 1px 0 var(--shadow);
+  white-space: nowrap;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Показывать только на телефонах; на бОльших — скрыть (десктопный хедер уже есть) */
+@media (min-width: 560px){
+  .headerMobile{ display:none; }
+}
