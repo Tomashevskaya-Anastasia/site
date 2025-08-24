@@ -42,7 +42,7 @@
   position:absolute;
   inset:-0.6px;
   border-radius: inherit;
-  background: url('/ui/hero/socials-frame.svg') center / 101% 102% no-repeat;
+  background: url('/ui/hero/socials-frame.svg') center / 100% 102% no-repeat;
   pointer-events: none;       /* не мешаем кликам по иконкам */
   z-index: 0;                 /* рамка под контентом */
 }
@@ -164,6 +164,7 @@
 @media (min-width: 560px){
   .headerMobile{ display:none; }
 }
+
 
 
 
