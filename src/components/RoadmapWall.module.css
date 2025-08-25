@@ -1,0 +1,83 @@
+/* секция */
+.wrap{
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;        /* убирает baseline‑щель у IMG */
+  margin-top: -1px;      /* на случай стыка с соседним блоком */
+}
+
+/* фон-картинка (полностью по ширине) */
+.art{
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* слой поверх картинки */
+.stage{
+  position: absolute;
+  inset: 0;
+}
+
+/* ===== Заголовок как в фигме ===== */
+.title{
+  position: absolute;
+  left: 50%;
+  top: 5%;                 /* подкорректируй при желании */
+  transform: translateX(-50%);
+  margin: 0;
+
+  font-family: 'Mountains of Christmas', cursive;
+  font-style: normal;
+  font-weight: 700;
+  text-transform: uppercase;
+  white-space: nowrap;
+
+  /* фигма: 70px/97px → 1.386 ~ 1.39 */
+  font-size: clamp(28px, 5.2vw, 70px);
+  line-height: 1.39;
+
+  color: var(--rm-brown);
+
+  /* тень из фигмы: -4px 2px 0 #C36B2C */
+  text-shadow: -4px 2px 0 var(--rm-shadow);
+
+  /* при надобности — тонкая обводка для контраста на светлых участках */
+  -webkit-text-stroke: 0.8px rgba(0,0,0,0.25);
+  /* запрещаем выделение текста */
+  user-select: none;
+  pointer-events: none; /* чтобы клики проходили сквозь заголовок */
+}
+
+/* планшеты: чуть мягче контур и меньше тень */
+@media (max-width: 1024px){
+  .title{
+    text-shadow: -3px 1.5px 0 var(--rm-shadow);
+    -webkit-text-stroke: 0.6px rgba(0,0,0,0.25);
+  }
+}
+
+/* большие мониторы: крупнее текст (70→96) */
+@media (min-width: 1900px){
+  .title{ font-size: clamp(70px, 4vw, 96px); }
+}
+
+@media (max-width: 560px){
+  .title{
+    text-shadow: -3px 1.5px 0 var(--rm-shadow);
+    -webkit-text-stroke: 0.6px rgba(0,0,0,0.25);
+  }
+
+  .art{
+    display: block;
+    width: 100%;
+    height: auto;
+    user-select: none;
+    pointer-events: none;
+    
+  }
+
+}

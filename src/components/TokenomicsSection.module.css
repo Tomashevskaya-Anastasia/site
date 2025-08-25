@@ -1,0 +1,312 @@
+/* ===== ПАРАМЕТРЫ: правь только их ===== */
+
+
+/* ===== СЕКЦИЯ (фон на самой секции) ===== */
+.section{
+  margin-top: -1px;
+  position: relative;
+  width: 100%;
+  isolation: isolate;
+  overflow: visible;
+  scroll-margin-top: var(--headerH);
+
+  background-image: url('/ui/tokenomics/tokenomics-art.png');
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: contain;
+
+  min-height: max(
+    calc(100vw * var(--art-ratio)),
+    calc(var(--tmx-card-h-desktop) + 2 * var(--tmx-padY))
+  );
+}
+
+/* лёгкое затемнение снизу поверх фона */
+.section::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  box-shadow: inset 0 -120px 120px rgba(0,0,0,0.25);
+  z-index:0;
+}
+
+/* ===== КОНТЕНТ ===== */
+.inner{
+  position: relative;
+  z-index: 1;
+  padding-block: var(--tmx-padY);
+  padding-left: max(var(--tmx-side-desktop), env(safe-area-inset-left));
+  padding-right: max(var(--tmx-side-desktop), env(safe-area-inset-right));
+  width: min(100%, calc(4 * var(--tmx-card-w-desktop) + 3 * var(--tmx-gap-desktop)));
+  margin: 0 auto;
+}
+
+/* ===== ЗАГОЛОВОК ===== */
+.title{
+  font-family: 'Mountains of Christmas', system-ui, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #B9E5E5;
+  font-size: clamp(40px, 5.2vw, 70px);
+  line-height: 1.35;
+  text-align: center;
+  text-shadow: -4px 2px 0px #45250D;
+  margin: 0 0 var(--space-title-grid);   /* управляемая дистанция до сетки */
+  letter-spacing: .5px;
+}
+
+/* ===== СЕТКА КАРТОЧЕК ===== */
+.grid{
+  display: grid;
+  grid-template-columns: repeat(4, var(--tmx-card-w-desktop));
+  grid-auto-rows: minmax(var(--tmx-card-h-desktop), auto);
+  justify-content: center;
+  gap: var(--tmx-gap-desktop);
+
+  /* внешние отступы сетки */
+  margin-top: var(--space-grid-top);
+  margin-bottom: var(--space-grid-bottom);
+}
+
+/* ===== КАРТОЧКА (стекло + SVG-рамка + свечение) ===== */
+.card{
+  position: relative;
+  width: var(--tmx-card-w-desktop);
+  min-height: var(--tmx-card-h-desktop);
+
+  /* стеклянный фон */
+  padding: 20px;
+  background: rgba(185,229,229,.10);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+
+  /* старую css-рамку отключаем (рамка будет SVG) */
+  border: 4px solid transparent;
+  border-radius: var(--card-radius);
+  box-shadow: none;
+
+  display: grid;
+  place-items: center;
+  overflow: visible; /* чтобы свечение не обрезалось */
+}
+
+/* SVG-рамка (точно по элементу, можно «выпустить» через --card-frame-outset) */
+.card::before{
+  content:"";
+  position:absolute;
+  inset: calc(var(--card-frame-outset) * -1);
+  z-index: 2;
+  pointer-events: none;
+  border-radius: var(--card-radius);
+  background: var(--card-frame-url) no-repeat center / 100% 100%;
+}
+
+/* СВЕЧЕНИЕ как в макете: 0 0 20px 2px #B9E5E5 */
+.card::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--card-radius);
+  z-index: 1;                 /* ниже рамки, выше фона карточки */
+  pointer-events: none;
+  box-shadow: 0 0 var(--card-glow-blur) var(--card-glow-spread) var(--card-glow-color);
+}
+
+/* Контент карточки */
+.cardTitle{
+  position: relative;
+  z-index: 3; /* над рамкой и свечением */
+  font-family: 'Mountains of Christmas', system-ui, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #B9E5E5;
+  font-size: clamp(26px, 2.9vw, 48px);
+  line-height: 1.25;
+  display: grid;
+  place-items: center;
+  height: 100%;
+  text-shadow: 0 0 .01px rgba(0,0,0,0);
+}
+
+/* Плотная колонка для SUPPLY */
+.stack{ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0; line-height:1; }
+.kicker{ display:block; }
+.supplyNumber{ display:block; margin:0; line-height:1; }
+.ticker{ display:block; margin:0; font-size:.9em; line-height:1; }
+
+/* Только текстовые элементы Tokenomics — без выделения */
+.title,
+.cardTitle,
+.kicker,
+.supplyNumber,
+.ticker{
+  -webkit-user-select: none; /* iOS/Safari */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* старый Edge/IE */
+  user-select: none;
+  -webkit-touch-callout: none; /* убирает меню по долгому тапу в iOS */
+}
+
+
+/* ===== БРЕЙКПОИНТЫ С ДОП. НАСТРОЙКОЙ ОТСТУПОВ ===== */
+
+/* ≥1700px — больше воздуха под заголовком */
+@media (max-width:2400px) and (min-width:1801px){
+  .section{
+    --space-title-grid: 100px;
+    --space-grid-top: 260px;
+    --space-grid-bottom: 0px;
+  }
+}
+
+@media (max-width:1800px) and (min-width:1699px){
+  .section{
+    --space-title-grid: 100px;
+    --space-grid-top: 180px;
+    --space-grid-bottom: 0px;
+  }
+}
+
+/* 1441–1699px */
+@media (max-width:1699px) and (min-width:1441px){
+  .section{
+    --space-title-grid: 56px;
+    --space-grid-top: 140px;
+  }
+}
+
+/* 1281–1440px */
+@media (max-width:1440px) and (min-width:1281px){
+  .section{
+    --space-title-grid: 48px;
+    --space-grid-top: 100px;
+  }
+}
+
+/* 1101–1280px (узкие десктопы) */
+@media (max-width:1280px) and (min-width:1101px){
+  .section{
+    --space-title-grid: 30px;
+    --space-grid-top: 90px;
+  }
+}
+
+/* ===== УЗКИЕ ДЕСКТОПЫ: размеры карточек/полей как раньше ===== */
+@media (max-width:1320px) and (min-width:1101px){
+  .inner{
+    padding-left: max(var(--tmx-side-narrow), env(safe-area-inset-left));
+    padding-right: max(var(--tmx-side-narrow), env(safe-area-inset-right));
+    width: min(100%, calc(4 * var(--tmx-card-w-narrow) + 3 * var(--tmx-gap-narrow)));
+  }
+  .grid{
+    grid-template-columns: repeat(4, var(--tmx-card-w-narrow));
+    grid-auto-rows: minmax(var(--tmx-card-h-narrow), auto);
+    gap: var(--tmx-gap-narrow);
+  }
+  .card{ width: var(--tmx-card-w-narrow); min-height: var(--tmx-card-h-narrow); }
+}
+
+/* ===== ПЛАНШЕТЫ (2×2). Фон до краёв, высота = под контент + отступы ===== */
+@media (max-width:1100px) and (min-width:601px){
+  .section{
+    background: none;
+    min-height: calc(2 * var(--tmx-card-h-tablet) + var(--tmx-gap-tablet) + 2 * var(--tmx-padY-tablet));
+    --space-title-grid: 36px;
+    --space-grid-top: 8px;
+    --space-grid-bottom: 8px;
+  }
+  .section::before{
+    content:"";
+    position:absolute;
+    top:0; bottom:0;
+    left: calc(50% - 50vw);
+    right: calc(50% - 50vw);
+    z-index:-1;
+    background-image: url('/ui/tokenomics/tokenomics-art.png');
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: cover;
+  }
+  .inner{
+    padding-block: var(--tmx-padY-tablet);
+    padding-left: max(var(--tmx-side-tablet), env(safe-area-inset-left));
+    padding-right: max(var(--tmx-side-tablet), env(safe-area-inset-right));
+    width: min(100%, calc(2 * var(--tmx-card-w-tablet) + 1 * var(--tmx-gap-tablet)));
+  }
+  .grid{
+    grid-template-columns: repeat(2, var(--tmx-card-w-tablet));
+    grid-auto-rows: minmax(var(--tmx-card-h-tablet), auto);
+    gap: var(--tmx-gap-tablet);
+  }
+  .card{ width: var(--tmx-card-w-tablet); min-height: var(--tmx-card-h-tablet); }
+}
+
+/* 601–900px — чуть компактнее отступы */
+@media (max-width:900px) and (min-width:700px){
+  .section{
+    --space-title-grid: 28px;
+    --space-grid-top: 6px;
+    --space-grid-bottom: 12px;
+  }
+}
+
+/* ===== ТЕЛЕФОНЫ (1 колонка). Фон до краёв, высота = под контент ===== */
+/* ===== ТЕЛЕФОНЫ (1 колонка). Фон до краёв, высота = под контент ===== */
+@media (max-width:700px){
+  .section{
+    /* выключаем десктопный фон, чтобы не было «двойного» фона */
+    background: none;
+    
+    /* прежние строки оставляем */
+    min-height: calc(4 * var(--tmx-card-h-phone) + 3 * var(--tmx-gap-phone) + 2 * var(--tmx-padY-phone));
+    --space-title-grid: 22px;
+    --space-grid-top: 6px;
+    --space-grid-bottom: 16px;
+
+    /* блокируем горизонтальный скролл в этой секции */
+    overflow-y: visible;
+    overflow-x: hidden; /* fallback */
+    overflow-x: clip;   /* современные браузеры */
+    touch-action: pan-y;
+  }
+
+  .section::before{
+    content:"";
+    position:absolute;
+    top:0; bottom:0;
+    left: calc(50% - 50vw);
+    right: calc(50% - 50vw);
+    z-index:-1;
+
+    /* мобильный фон */
+    background-image: url('/ui/tokenomics/mobile-tokenomics-art.png');
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: cover; /* нужно без обрезания — поменяй на contain */
+  }
+  
+  .inner{
+    padding-block: var(--tmx-padY-phone);
+    padding-left: max(var(--tmx-side-phone), env(safe-area-inset-left));
+    padding-right: max(var(--tmx-side-phone), env(safe-area-inset-right));
+    width: 100%;                /* ключевой момент */
+    max-width: var(--tmx-card-w-phone);
+    margin-inline: auto;
+  }
+
+  .grid{
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) !important; /* одна колонка всегда */
+    justify-items: center;
+    grid-auto-rows: minmax(var(--tmx-card-h-phone), auto);
+    gap: var(--tmx-gap-phone);
+  }
+
+  .card{
+    width: 100%;
+    max-width: var(--tmx-card-w-phone);
+    min-height: var(--tmx-card-h-phone);
+  }
+}
+
